@@ -1,5 +1,5 @@
 """Individual wheel-drive control for a four-facet Miura robot."""
-__all__ = ["Simulation", "HardwareBridge", "MotorCommand"]
+__all__ = ["Simulation", "MotorCommand"]
 
 def __getattr__(name):
     if name in __all__:

@@ -1,11 +1,11 @@
 {
-  "simulation_seconds": 9.999999999999831,
+  "simulation_seconds": 15.379999999999717,
   "motors": 16,
-  "max_closure_error_m": 4.4140616586284865e-05,
+  "max_closure_error_m": 0.00039240556646032344,
   "final_fold_rad": [
-    1.5027632343360982,
-    0.8739787122745423,
-    1.502751415811689
+    0.9572935800897938,
+    0.5078024231051469,
+    0.9572936406397187
   ],
   "warnings": [
     0,
@@ -16,5 +16,5 @@
     0,
     0
   ],
-  "log": "C:\\Users\\maxwe\\VSCode\\Miura_Simulation\\miura-robot\\output\\telemetry.csv"
+  "log": "C:\\Users\\maxwe\\VSCode\\Miura-Thesis\\miura-robot\\output\\telemetry.csv"
 }

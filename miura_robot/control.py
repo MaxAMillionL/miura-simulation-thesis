@@ -1,10 +1,9 @@
 """Motor-shaft units: radians, radians/second, newton-metres."""
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping, Protocol
+from typing import Mapping
 import json
 import math
-import time
 import numpy as np
 import mujoco
 from .build import ROOT, build, folded_angles
@@ -13,12 +12,6 @@ from .build import ROOT, build, folded_angles
 class MotorCommand:
     mode: str
     value: float
-
-class Transport(Protocol):
-    """Implement with your MCU/ROS/CAN/serial protocol; no implicit connection."""
-    def send(self, commands: Mapping[str, MotorCommand]) -> None: ...
-    def read(self) -> dict: ...
-    def stop(self) -> None: ...
 
 def validate(commands, names, config):
     result={}
@@ -117,34 +110,3 @@ class Simulation:
             'commanded_torque_nm':float(self.data.ctrl[self._ids[n]])} for n in self.names},
             'fold_rad':[float(self.data.joint(f'fold_{i}').qpos[0]) for i in range(1,4)],
             'closure_error_m':float(np.linalg.norm(self.data.site('closure_0').xpos-self.data.site('closure_3').xpos))}
-
-class HardwareBridge:
-    """Same commands, explicit user-supplied transport and hardware configuration.
-
-    The caller must call tick periodically. The MCU must ALSO implement its own
-    watchdog: a Python watchdog cannot protect against host disconnect or crash.
-    """
-    def __init__(self, transport: Transport, names, config):
-        self.transport=transport; self.names=tuple(names); self.config=config
-        self._commands={}; self._updated={}; self._armed=False
-    def arm(self):
-        self.stop(); self._armed=True
-    def command(self, commands):
-        if not self._armed: raise RuntimeError('Call arm() after configuring the real controller')
-        checked=validate(commands,self.names,self.config)
-        self._commands.update(checked); self._updated.update({n:time.monotonic() for n in checked})
-        self.tick()
-    def set_velocity(self,name,rad_s): self.command({name:MotorCommand('velocity',rad_s)})
-    def set_torque(self,name,nm): self.command({name:MotorCommand('torque',nm)})
-    def tick(self):
-        if not self._armed: return
-        now=time.monotonic()
-        frame={n:self._commands[n] if n in self._commands and now-self._updated[n]<self.config['command_timeout_s'] else MotorCommand('torque',0.) for n in self.names}
-        try: self.transport.send(frame)
-        except Exception:
-            self.stop(); raise
-    def read(self): return self.transport.read()
-    def stop(self):
-        self._armed=False; self._commands.clear(); self._updated.clear(); self.transport.stop()
-    def __enter__(self): return self
-    def __exit__(self,*args): self.stop()

@@ -7,7 +7,7 @@
   "gear_mass_kg": 0.002,
   "gear_ratio": 1.0,
   "gear_efficiency": 0.8,
-  "motor_torque_limit_nm": 0.015,
+  "motor_torque_limit_nm": 0.08,
   "motor_speed_limit_rad_s": 40.0,
   "velocity_kp": 0.003,
   "wheel_friction": 0.9,
@@ -17,34 +17,6 @@
   "wheel_axial_offset_m": 0.009,
   "fixed_base": false,
   "cad_calibration": {
-    "hinge_vertex_stl_units": [
-      27.94933362,
-      186.89474,
-      6.0
-    ],
-    "edge_length_stl_units": 99.194066,
-    "motor_rear_mounts_stl_units": [
-      [
-        84.497837,
-        179.65,
-        6
-      ],
-      [
-        5.949334,
-        165.7,
-        6
-      ],
-      [
-        135.85315,
-        59.3,
-        6
-      ],
-      [
-        57.304639,
-        45.35,
-        6
-      ]
-    ],
     "motor_rear_axes": [
       [
         0.8660254,
@@ -66,6 +38,25 @@
         0.5,
         0
       ]
+    ],
+    "connector_vertex_stl_units": [
+      5.94933362,
+      225,
+      6
+    ],
+    "connector_edge_length_stl_units": 150,
+    "gear_pitch_stl_units": 11,
+    "motor_center_offset_stl_units": 19.4,
+    "connector_stations_stl_units": [
+      19.65,
+      56.35
     ]
-  }
+  },
+  "shaft_drives_interlock": true,
+  "fold_position_gain": 100.0,
+  "fold_speed_limit_rad_s": 40.0,
+  "drive_linear_speed_m_s": 0.04,
+  "drive_yaw_speed_rad_s": 0.4,
+  "fold_integral_gain": 150.0,
+  "fold_integral_limit_rad_s": 0.25
 }

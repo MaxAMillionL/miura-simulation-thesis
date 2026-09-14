@@ -10,48 +10,19 @@ This trimmed-down version does one thing: build the robot model and drive it
 around in the interactive viewer. It does not include CAD-inspection tooling,
 render/preview scripts, a hardware bridge, or automated tests.
 
-## Install
+## Run on this Mac
 
-From the project root (Python 3.10 or newer):
-
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -e .
-.venv/bin/python -m miura_robot.build
-```
-
-or on Windows,
-
-```
-python -m venv .venv
-.venv/Scripts/python -m pip install -e .
-.venv/Scripts/python -m miura_robot.build
-```
-
-This works on any machine with Python 3.10+; there's nothing user- or
-path-specific in the project itself.
-
-## Run
+Open Terminal and run:
 
 ```bash
+cd /Users/yash/miura-robot
 .venv/bin/mjpython -m miura_robot.run --paused --seconds 3600
 ```
 
-On macOS the interactive viewer requires `mjpython` specifically (a MuJoCo/Mac
-GUI requirement, not something this project can work around). Linux and
-Windows can use the regular interpreter instead:
-
-```bash
-.venv/bin/python -m miura_robot.run --paused --seconds 3600
-```
-
-You can also double-click `Launch-Simulation.command` in Finder on macOS; it
-just `cd`s into whatever folder it's sitting in and runs the same command, so
-it works regardless of where the project lives on disk.
-
 The window starts paused. Press **P** to run physics, then use the controls
-below. Mouse drag orbits the camera and scroll zooms; close the window to
-finish. The on-screen overlay always shows this same key legend.
+below. You can also double-click `Launch-Simulation.command` in Finder. Mouse
+drag orbits the camera and scroll zooms; close the window to finish. The
+on-screen overlay always shows this same key legend.
 
 | Key | Action |
 |---|---|
@@ -80,12 +51,24 @@ fixed folded shape with the confirmed rigid 1:1 coupling.
 **Simulation torque assumption:** `motor_torque_limit_nm` is **0.08 N·m**. At
 that value, the motor controller folds and unfolds under gravity, with finite
 tracking error. This is a simulation assumption, not a measured specification
-or confirmation that real motors of this size can lift the robot.
+or confirmation that your real motors can lift the robot.
 
 CSV telemetry (time, per-motor targets/speeds/torque, closure error, fold
 angle, body position) is written to `output/telemetry.csv` as the sim runs,
 with a JSON summary written beside it when the viewer closes. The simulation
 uses seconds, metres, kilograms, radians and newton-metres.
+
+For a fresh installation (Python 3.10 or newer):
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e .
+.venv/bin/python -m miura_robot.build
+```
+
+On macOS, use `mjpython` for the interactive viewer (a native GUI requirement,
+not something this project can work around). Linux/Windows can use
+`python -m miura_robot.run`.
 
 ## Drive from Python
 
