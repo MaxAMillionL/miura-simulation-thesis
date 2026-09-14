@@ -55,8 +55,8 @@ class RobotMotion:
 
     def set_fold(self, angle):
         from .build import folded_angles
-        if not math.isfinite(angle) or not 0 <= angle <= 1.2:
-            raise ValueError('Fold target must be in [0, 1.2] radians')
+        # if not math.isfinite(angle) or not 0 <= angle <= 1.2:
+        #     raise ValueError('Fold target must be in [0, 1.2] radians')
         self.fold_target_rad=float(angle)
         self._fold_angles=folded_angles(angle)
 

@@ -64,7 +64,7 @@ def main():
                                      {263: yaw, 262: -yaw}.get(code, 0.))
                     elif code in (ord('C'), ord('O')):
                         motion.forward_m_s = motion.yaw_rad_s = 0.
-                        motion.set_fold(1.0 if code == ord('C') else 0.)
+                        motion.set_fold(1.0 if code == ord('C') else -1.0)
                     elif code == 32:  # Space
                         motion.stop()
                     elif code == ord('P'):
