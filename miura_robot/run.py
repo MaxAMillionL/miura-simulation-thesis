@@ -20,6 +20,7 @@ CONTROLS = (
 )
 
 
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--seconds', type=float, default=3600, help='How long to keep the viewer open')
@@ -62,9 +63,12 @@ def main():
                     if code in (262, 263, 264, 265):
                         motion.drive({265: linear, 264: -linear}.get(code, 0.),
                                      {263: yaw, 262: -yaw}.get(code, 0.))
-                    elif code in (ord('C'), ord('O')):
+                    elif code == (ord('U')):
                         motion.forward_m_s = motion.yaw_rad_s = 0.
-                        motion.set_fold(1.0 if code == ord('C') else -1.0)
+                        motion.set_fold(motion.fold_target_rad + .1)
+                    elif code == (ord('O')):
+                        motion.forward_m_s = motion.yaw_rad_s = 0.
+                        motion.set_fold(motion.fold_target_rad - .1)
                     elif code == 32:  # Space
                         motion.stop()
                     elif code == ord('P'):

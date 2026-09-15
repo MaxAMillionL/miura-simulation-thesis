@@ -55,8 +55,8 @@ class RobotMotion:
 
     def set_fold(self, angle):
         from .build import folded_angles
-        # if not math.isfinite(angle) or not 0 <= angle <= 1.2:
-        #     raise ValueError('Fold target must be in [0, 1.2] radians')
+        if not math.isfinite(angle) or not 0 <= abs(angle) <= 1.2:
+            return
         self.fold_target_rad=float(angle)
         self._fold_angles=folded_angles(angle)
 
@@ -65,7 +65,7 @@ class RobotMotion:
         if not all(math.isfinite(v) for v in [forward_m_s,yaw_rad_s]):
             raise ValueError('Drive speeds must be finite')
         self.forward_m_s=forward_m_s; self.yaw_rad_s=yaw_rad_s
-        if forward_m_s or yaw_rad_s: self.set_fold(0.)
+        # if forward_m_s or yaw_rad_s: self.set_fold(0.)
 
     def stop(self):
         """Brake perimeter wheels and hold the current fold with motor torque."""
